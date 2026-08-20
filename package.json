@@ -1,0 +1,9 @@
+{
+  "name": "muulo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "description": "A learning project for a multi-tenant delivery-management system."
+}
