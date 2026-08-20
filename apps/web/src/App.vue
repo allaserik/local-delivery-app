@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+const appName = "Muulo";
 </script>
 
 <template>
-  <HelloWorld />
+  <main>
+    <h1>{{ appName }}</h1>
+    <p>Delivery management for local businesses.</p>
+  </main>
 </template>
