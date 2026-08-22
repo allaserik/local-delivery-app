@@ -1,22 +1,32 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CompaniesService } from './companies.service';
-import { CompaniesController } from './companies.controller';
+import { Test, TestingModule } from '@nestjs/testing'
+import { CompaniesController } from './companies.controller'
+import { CompaniesService } from './companies.service'
 
 describe('CompaniesController', () => {
-    let companiesController: CompaniesController;
+    let controller: CompaniesController
+    const getCompanies = jest.fn()
 
     beforeEach(async () => {
-        const app: TestingModule = await Test.createTestingModule({
+        getCompanies.mockReset()
+
+        const module: TestingModule = await Test.createTestingModule({
             controllers: [CompaniesController],
-            providers: [CompaniesService],
-        }).compile();
+            providers: [
+                {
+                    provide: CompaniesService,
+                    useValue: { getCompanies },
+                },
+            ],
+        }).compile()
 
-        companiesController = app.get<CompaniesController>(CompaniesController);
-    });
+        controller = module.get(CompaniesController)
+    })
 
-    describe('/companies', () => {
-        it('should return "Here be companies"', () => {
-            expect(companiesController.getCompanies()).toBe('Here be companies');
-        });
-    });
-});
+    it('returns the companies from the service', async () => {
+        const companies: any[] = [];
+        getCompanies.mockResolvedValue(companies)
+
+        await expect(controller.getCompanies()).resolves.toEqual(companies)
+        expect(getCompanies).toHaveBeenCalledTimes(1)
+    })
+})
